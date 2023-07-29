@@ -1,13 +1,22 @@
 # Snake Game!
 # Author: Logan Markley
 # Last Updated: 7/28/2023
-# Version: 1.1
-# Latest Addition: added the Fruit class with randomly generated position on the board
+# Version: 1.2
+# Latest Addition: added the Snake class that has a list of 2d vectors that contain its positions on the "grid"
 # Date Started: 7/28/2023
 # Desc: Using Clear Code's Youtube video "Learning pygame by creating Snake", the famous Snake game will be replicated
 
 import pygame, sys, random
 from pygame.math import Vector2
+
+class Snake:
+    def __init__(self):
+        self.body = [Vector2(5,10), Vector2(6,10), Vector2(7,10)]
+
+    def draw_snake(self):
+        for block in self.body:
+            block_rect = pygame.Rect(block.x*cell_size, block.y*cell_size, cell_size, cell_size)
+            pygame.draw.rect(screen, (183,191,122), block_rect)
 
 class Fruit:
     def __init__(self):
@@ -28,6 +37,7 @@ screen = pygame.display.set_mode((cell_number*cell_size, cell_number*cell_size))
 clock = pygame.time.Clock()
 
 fruit = Fruit()
+snake = Snake()
 
 while True:
     for event in pygame.event.get():
@@ -37,5 +47,6 @@ while True:
 
     screen.fill((175,215,70))
     fruit.draw_fruit()
+    snake.draw_snake()
     pygame.display.update()
     clock.tick(60)      # game never runs faster than 60 times per second to make the game consistent
