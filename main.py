@@ -1,8 +1,8 @@
 # Snake Game!
 # Author: Logan Markley
 # Last Updated: 7/30/2023
-# Version: 1.8
-# Latest Addition: added the background grass grid
+# Version: 1.9
+# Latest Addition: added a score tracker in bottom right
 # Date Started: 7/28/2023
 # Desc: Using Clear Code's Youtube video "Learning pygame by creating Snake", the famous Snake game will be replicated
 
@@ -119,6 +119,7 @@ class Main:
         self.draw_grass()
         self.fruit.draw_fruit()
         self.snake.draw_snake()
+        self.draw_score()
     def check_collision(self):
         if self.fruit.pos == self.snake.body[0]:
             self.fruit.randomize()
@@ -146,6 +147,19 @@ class Main:
                     if col % 2 != 0:
                         grass_rect = pygame.Rect(col*cell_size,row*cell_size,cell_size,cell_size)
                         pygame.draw.rect(screen,grass_color,grass_rect)
+    def draw_score(self):
+        score_text = str(len(self.snake.body) - 3)
+        score_surface = game_font.render(score_text,True,(50,70,10))
+        score_x = int(cell_size * cell_number - 70)
+        score_y = int(cell_size * cell_number - 40)
+        score_rect = score_surface.get_rect(center = (score_x,score_y))
+        apple_rect = apple.get_rect(midright = (score_rect.left,score_rect.centery))
+        background_rect = pygame.Rect(apple_rect.left, apple_rect.top,apple_rect.width+10+score_rect.width,apple_rect.height)
+
+        pygame.draw.rect(screen, (250,200,50),background_rect)
+        screen.blit(score_surface,score_rect)
+        screen.blit(apple,apple_rect)
+        pygame.draw.rect(screen, (55, 75, 10), background_rect, 2)
 
 pygame.init()
 cell_size = 40
@@ -153,6 +167,7 @@ cell_number = 20
 screen = pygame.display.set_mode((cell_number*cell_size, cell_number*cell_size))
 clock = pygame.time.Clock()
 apple = pygame.image.load('Graphics/apple.png').convert_alpha()
+game_font = pygame.font.Font('Fonts/MilkyAgain.ttf', 25)
 
 SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE, 150)   #this event is triggered every 150 ms
