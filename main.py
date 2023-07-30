@@ -1,8 +1,8 @@
 # Snake Game!
 # Author: Logan Markley
 # Last Updated: 7/30/2023
-# Version: 1.9
-# Latest Addition: added a score tracker in bottom right
+# Version: 2.0
+# Latest Addition: Youtube Version Complete!
 # Date Started: 7/28/2023
 # Desc: Using Clear Code's Youtube video "Learning pygame by creating Snake", the famous Snake game will be replicated
 
@@ -32,6 +32,8 @@ class Snake:
         self.body_tl = pygame.image.load('Graphics/body_tl.png').convert_alpha()
         self.body_br = pygame.image.load('Graphics/body_br.png').convert_alpha()
         self.body_bl = pygame.image.load('Graphics/body_bl.png').convert_alpha()
+
+        self.crunch_sound = pygame.mixer.Sound('Sounds/Sound_crunch.wav')
     def draw_snake(self):
         self.update_head_graphics()
         self.update_tail_graphics()
@@ -91,6 +93,11 @@ class Snake:
         self.new_block = False
     def add_block(self):
         self.new_block = True
+    def play_crunch_sound(self):
+        self.crunch_sound.play()
+    def reset(self):
+        self.body = [Vector2(4, 10), Vector2(3, 10), Vector2(2, 10)]
+        self.direction = Vector2(0, 0)
 
 class Fruit:
     def __init__(self):
@@ -124,6 +131,11 @@ class Main:
         if self.fruit.pos == self.snake.body[0]:
             self.fruit.randomize()
             self.snake.add_block()
+            self.snake.play_crunch_sound()
+
+        for block in self.snake.body[1:]:
+            if block == self.fruit.pos:
+                self.fruit.randomize()
     def check_fail(self):
         if not 0 <= self.snake.body[0].x < cell_number or not 0 <= self.snake.body[0].y < cell_number:
             self.game_over()
@@ -132,8 +144,9 @@ class Main:
             if block == self.snake.body[0]:
                 self.game_over()
     def game_over(self):
-        pygame.quit()
-        sys.exit()
+        #pygame.quit()
+        #sys.exit()
+        self.snake.reset()
     def draw_grass(self):
         grass_color = (160,210,60)
         for row in range(cell_number):
@@ -170,7 +183,7 @@ apple = pygame.image.load('Graphics/apple.png').convert_alpha()
 game_font = pygame.font.Font('Fonts/MilkyAgain.ttf', 25)
 
 SCREEN_UPDATE = pygame.USEREVENT
-pygame.time.set_timer(SCREEN_UPDATE, 150)   #this event is triggered every 150 ms
+pygame.time.set_timer(SCREEN_UPDATE, 125)   #this event is triggered every 150 ms
 
 main_game = Main()
 
