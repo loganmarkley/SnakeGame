@@ -1,8 +1,8 @@
 # Snake Game!
 # Author: Logan Markley
 # Last Updated: 7/30/2023
-# Version: 1.7
-# Latest Addition: added all of the snake's graphics!
+# Version: 1.8
+# Latest Addition: added the background grass grid
 # Date Started: 7/28/2023
 # Desc: Using Clear Code's Youtube video "Learning pygame by creating Snake", the famous Snake game will be replicated
 
@@ -111,21 +111,18 @@ class Main:
     def __init__(self):
         self.snake = Snake()
         self.fruit = Fruit()
-
     def update(self):
         self.snake.move_snake()
         self.check_collision()
         self.check_fail()
-
     def draw_elements(self):
+        self.draw_grass()
         self.fruit.draw_fruit()
         self.snake.draw_snake()
-
     def check_collision(self):
         if self.fruit.pos == self.snake.body[0]:
             self.fruit.randomize()
             self.snake.add_block()
-
     def check_fail(self):
         if not 0 <= self.snake.body[0].x < cell_number or not 0 <= self.snake.body[0].y < cell_number:
             self.game_over()
@@ -136,6 +133,19 @@ class Main:
     def game_over(self):
         pygame.quit()
         sys.exit()
+    def draw_grass(self):
+        grass_color = (160,210,60)
+        for row in range(cell_number):
+            if row % 2 == 0:
+                for col in range(cell_number):
+                    if col % 2 == 0:
+                        grass_rect = pygame.Rect(col*cell_size,row*cell_size,cell_size,cell_size)
+                        pygame.draw.rect(screen,grass_color,grass_rect)
+            else:
+                for col in range(cell_number):
+                    if col % 2 != 0:
+                        grass_rect = pygame.Rect(col*cell_size,row*cell_size,cell_size,cell_size)
+                        pygame.draw.rect(screen,grass_color,grass_rect)
 
 pygame.init()
 cell_size = 40
