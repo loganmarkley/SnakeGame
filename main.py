@@ -1,8 +1,8 @@
 # Snake Game!
 # Author: Logan Markley
 # Last Updated: 7/30/2023
-# Version: 1.5
-# Latest Addition: Game Over States (out of bounds or hitting own body), and better input management
+# Version: 1.6
+# Latest Addition: added apple graphic
 # Date Started: 7/28/2023
 # Desc: Using Clear Code's Youtube video "Learning pygame by creating Snake", the famous Snake game will be replicated
 
@@ -39,7 +39,7 @@ class Fruit:
     def draw_fruit(self):
         # create a rectangle and draw it
         fruit_rect = pygame.Rect(self.pos.x*cell_size, self.pos.y*cell_size, cell_size, cell_size)      #Rect(x,y,w,h)
-        pygame.draw.rect(screen,(126,166,114),fruit_rect)
+        screen.blit(apple, fruit_rect)
 
     def randomize(self):
         # create a random x and y position
@@ -82,6 +82,7 @@ cell_size = 40
 cell_number = 20
 screen = pygame.display.set_mode((cell_number*cell_size, cell_number*cell_size))
 clock = pygame.time.Clock()
+apple = pygame.image.load('Graphics/apple.png').convert_alpha()
 
 SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE, 140)   #this event is triggered every 150 ms
