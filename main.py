@@ -144,8 +144,6 @@ class Main:
             if block == self.snake.body[0]:
                 self.game_over()
     def game_over(self):
-        #pygame.quit()
-        #sys.exit()
         self.snake.reset()
     def draw_grass(self):
         grass_color = (160,210,60)
@@ -162,7 +160,7 @@ class Main:
                         pygame.draw.rect(screen,grass_color,grass_rect)
     def draw_score(self):
         score_text = str(len(self.snake.body) - 3)
-        score_surface = game_font.render(score_text,True,(50,70,10))
+        score_surface = score_font.render(score_text,True,(50,70,10))
         score_x = int(cell_size * cell_number - 70)
         score_y = int(cell_size * cell_number - 40)
         score_rect = score_surface.get_rect(center = (score_x,score_y))
@@ -178,12 +176,14 @@ pygame.init()
 cell_size = 40
 cell_number = 20
 screen = pygame.display.set_mode((cell_number*cell_size, cell_number*cell_size))
+pygame.display.set_caption('Snake Game!')
 clock = pygame.time.Clock()
 apple = pygame.image.load('Graphics/apple.png').convert_alpha()
-game_font = pygame.font.Font('Fonts/MilkyAgain.ttf', 25)
+score_font = pygame.font.Font('Fonts/MilkyAgain.ttf', 25)
+game_over_font = pygame.font.Font('Fonts/MilkyAgain.ttf', 50)
 
 SCREEN_UPDATE = pygame.USEREVENT
-pygame.time.set_timer(SCREEN_UPDATE, 125)   #this event is triggered every 150 ms
+pygame.time.set_timer(SCREEN_UPDATE, 125)   #this event is triggered every 125 ms
 
 main_game = Main()
 
